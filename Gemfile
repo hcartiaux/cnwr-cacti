@@ -18,7 +18,6 @@ group :test do
   gem "puppet-lint-version_comparison-check"
   gem "puppet-lint-classes_and_types_beginning_with_digits-check"
   gem "puppet-lint-unquoted_string-check"
-  gem "safe_yaml", '~> 1.0.4'
 end
 
 group :development do
