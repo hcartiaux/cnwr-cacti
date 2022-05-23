@@ -18,7 +18,7 @@ class cacti::mysql(
     },
   ) inherits ::cacti{
 
-  if $::operatingsystemmajrelease == "7" {
+  if $::operatingsystemmajrelease == '7' {
     $mysql_options = deep_merge($override_options, 'mysqld' => { 'innodb_additional_mem_pool_size' => '80M' } )
   } else {
     $mysql_options = $override_options
@@ -27,7 +27,7 @@ class cacti::mysql(
   class { '::mysql::server':
     root_password           => $::cacti::database_root_pass,
     remove_default_accounts => true,
-    override_options => $mysql_options,
+    override_options        => $mysql_options,
   }
 
 
@@ -37,13 +37,13 @@ class cacti::mysql(
     host     => $::cacti::database_host,
     grant    => ['ALL'],
     sql      => ::cacti::params::cacti_sql_file_path,
-    charset => 'utf8',
-    collate => 'utf8_general_ci',
-    notify => Exec['patch MySQL TimeZone support'],
+    charset  => 'utf8',
+    collate  => 'utf8_general_ci',
+    notify   => Exec['patch MySQL TimeZone support'],
   }
 
   exec { 'patch MySQL TimeZone support':
-    command => "mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -Dmysql -p$::cacti::database_root_pass && mysql -p$::cacti::database_root_pass -D mysql -e \"GRANT SELECT ON mysql.time_zone_name TO ${::cacti::database_user}@localhost; flush privileges;\"",
+    command     => "mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -Dmysql -p${::cacti::database_root_pass} && mysql -p${::cacti::database_root_pass} -D mysql -e \"GRANT SELECT ON mysql.time_zone_name TO ${::cacti::database_user}@localhost; flush privileges;\"",
     refreshonly => true;
   }
 
