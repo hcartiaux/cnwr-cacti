@@ -19,6 +19,13 @@ class cacti::params {
       case $::operatingsystemmajrelease {
         '7': {
           $cacti_package = 'cacti'
+          $cacti_user    = 'cacti'
+          $cacti_sql_file_path = '/usr/share/doc/cacti-1.1.10/cacti.sql'
+        }
+        '8': {
+          $cacti_package = 'cacti'
+          $cacti_user    = 'apache'
+          $cacti_sql_file_path = '/usr/share/doc/cacti/cacti.sql'
         }
         default: {
           fail("${::operatingsystem} ${::operatingsystemmajrelease} not supported")

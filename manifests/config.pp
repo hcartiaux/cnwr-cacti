@@ -8,7 +8,7 @@ class cacti::config inherits cacti{
     ensure  => present,
     content => template('cacti/etc/cacti/db.erb'),
     mode    => '0640',
-    owner   => 'cacti',
+    owner   => $::cacti::params::cacti_user,
     group   => 'apache',
   }
 

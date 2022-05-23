@@ -12,11 +12,17 @@ class cacti::mysql(
       'innodb_file_per_table' => 'ON',
       'innodb_buffer_pool_size' => Integer($::memory['system']['total_bytes'] * 0.25),
       'innodb_doublewrite' => 'OFF',
-      'innodb_additional_mem_pool_size' => '80M',
       'innodb_lock_wait_timeout' => '50',
       'innodb_flush_log_at_trx_commit' => '2'
       }
     },
+
+    if ($::operatingsystemmajrelease == "7")
+    {
+      $mysql_options = deep_merge($override_options, 'mysqld' => { 'innodb_additional_mem_pool_size' => '80M' } )
+    }
+
+
   ) inherits ::cacti{
 
   class { '::mysql::server':
@@ -30,7 +36,7 @@ class cacti::mysql(
     password => $::cacti::database_pass,
     host     => $::cacti::database_host,
     grant    => ['ALL'],
-    sql      => '/usr/share/doc/cacti-1.1.10/cacti.sql',
+    sql      => ::cacti::params::cacti_sql_file_path,
     charset => 'utf8',
     collate => 'utf8_general_ci',
     notify => Exec['patch MySQL TimeZone support'],
