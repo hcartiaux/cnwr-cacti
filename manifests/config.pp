@@ -30,7 +30,7 @@ class cacti::config inherits cacti{
   cron::job { 'cacti':
     minute  => '*/5',
     command => '/usr/bin/php /usr/share/cacti/poller.php > /dev/null 2>&1',
-    user    => 'cacti',
+    user    => $::cacti::params::cacti_user,
   }
 
 
