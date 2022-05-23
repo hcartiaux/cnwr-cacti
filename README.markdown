@@ -28,7 +28,7 @@ The Cacti module installs, configures, and manages all of Cacti's dependencies.
 
 Uses the [puppetlabs-mysql](https://github.com/puppetlabs/puppetlabs-mysql) module to install, manage, and configure mariadb for use with cacti.
 
-Uses [rmueller-cron](https://github.com/roman-mueller/rmueller-cron) to manage /etc/cron.d/cacti.
+Uses [puppet-cron](https://github.com/voxpupuli/puppet-cron) to manage /etc/cron.d/cacti.
 
 
 ## Setup
@@ -125,8 +125,8 @@ class { '::cacti':
 
 Currently only the following Operating Systems are supported:
 
-* RHEL 7
-* CentOS 7
+* RHEL 7, 8
+* CentOS 7, 8
 
 ## Development
 
