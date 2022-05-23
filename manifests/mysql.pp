@@ -16,20 +16,20 @@ class cacti::mysql(
       'innodb_flush_log_at_trx_commit' => '2'
       }
     },
-
-    if ($::operatingsystemmajrelease == "7")
-    {
-      $mysql_options = deep_merge($override_options, 'mysqld' => { 'innodb_additional_mem_pool_size' => '80M' } )
-    }
-
-
   ) inherits ::cacti{
+
+  if $::operatingsystemmajrelease == "7" {
+    $mysql_options = deep_merge($override_options, 'mysqld' => { 'innodb_additional_mem_pool_size' => '80M' } )
+  } else {
+    $mysql_options = $override_options
+  }
 
   class { '::mysql::server':
     root_password           => $::cacti::database_root_pass,
     remove_default_accounts => true,
-    override_options => $override_options,
+    override_options => $mysql_options,
   }
+
 
   mysql::db { 'cacti':
     user     => $::cacti::database_user,
